@@ -1,0 +1,16 @@
+RegisterCommand("filecase", function(source, args)
+    local player = source
+    local suspect = args[1]
+    local charges = table.concat(args, " ", 2)
+
+    local caseNumber = math.random(1000,9999)
+
+    MySQL.insert('INSERT INTO doj_cases (case_number, suspect, charges, officer) VALUES (?, ?, ?, ?)', {
+        caseNumber,
+        suspect,
+        charges,
+        GetPlayerName(player)
+    })
+
+    sendToDiscord(caseNumber, suspect, charges, GetPlayerName(player))
+end)
